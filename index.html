@@ -418,8 +418,10 @@
 
             <!-- 통합 막대 그래프 카드 -->
             <div class="card">
-                <div style="font-weight: 600; font-size: 16px; margin-bottom: 15px;">
-                    목표: <span id="home-total-need-simple">5억 5천만원</span>
+                <!-- 목표 금액 - 플로니 스타일 -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <div style="font-size: 13px; color: #64748b; font-weight: 500;">🎯 아파트 목표 금액</div>
+                    <div style="font-size: 20px; font-weight: 700; color: #10b981;" id="home-total-need-simple">5억 5,000만원</div>
                 </div>
 
                 <!-- 진행률 막대 -->
@@ -515,13 +517,17 @@
                                 <span style="color: #666;">LTV 비율</span>
                                 <span style="font-weight: 500;" id="detail-ltv">70%</span>
                             </div>
+                            <div style="display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px; border-bottom: 1px solid #e0e0e0; padding-bottom: 8px; margin-bottom: 5px;">
+                                <span style="color: #666;">💰 대출 가능 금액</span>
+                                <span style="font-weight: 600; color: #10b981;" id="detail-loan-available">0원</span>
+                            </div>
                             <div style="display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px;">
                                 <span style="color: #666;">중도금 대출 이자율</span>
                                 <span style="font-weight: 500;" id="detail-loan-rate">0%</span>
                             </div>
                             <div style="display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px; border-top: 1px solid #e0e0e0; padding-top: 8px; margin-top: 5px;">
-                                <span style="color: #666;">월 대출 이자</span>
-                                <span style="font-weight: 500; color: #ef4444;" id="detail-monthly-interest">0원</span>
+                                <span style="color: #666;">💸 월 대출 이자</span>
+                                <span style="font-weight: 600; color: #ef4444;" id="detail-monthly-interest">0원</span>
                             </div>
                         </div>
                     </div>
@@ -574,6 +580,14 @@
             <!-- 빠른 추가 버튼 -->
             <button class="btn btn-primary" onclick="showAddExpense()" style="margin-bottom: 15px;">+ 항목 추가</button>
             
+            <!-- 섹션 헤더: 지출 내역 -->
+            <div style="padding: 12px 0 12px 0; margin-bottom: 12px;">
+                <div style="font-size: 15px; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 8px;">
+                    <div style="width: 4px; height: 18px; background: linear-gradient(180deg, #10b981 0%, #059669 100%); border-radius: 2px;"></div>
+                    📋 카테고리별 지출 내역
+                </div>
+            </div>
+
             <!-- 카테고리별 지출 내역 -->
             <div id="expenses-list">
                 <div style="color: #94a3b8; text-align: center; padding: 40px 0;">등록된 지출이 없습니다</div>
@@ -582,10 +596,18 @@
 
         <!-- 자금현황 탭 -->
         <div id="savings" class="tab-content">
+            <!-- 섹션 헤더: 보유 자금 -->
+            <div style="padding: 16px 0 12px 0; margin-bottom: 12px;">
+                <div style="font-size: 15px; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 8px;">
+                    <div style="width: 4px; height: 18px; background: linear-gradient(180deg, #10b981 0%, #059669 100%); border-radius: 2px;"></div>
+                    💰 보유 자금
+                </div>
+            </div>
+
             <!-- 총 보유 현금 -->
-            <div class="mint-card">
+            <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 16px 20px; border-radius: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2); display: flex; justify-content: space-between; align-items: center;">
                 <div style="font-size: 14px; opacity: 0.9;">💰 총 보유 현금</div>
-                <div class="big-amount" id="total-cash-display">0만원</div>
+                <div style="font-size: 24px; font-weight: 700;" id="total-cash-display">0만원</div>
             </div>
 
             <!-- 보유 현금 리스트 -->
@@ -599,59 +621,54 @@
                 </div>
             </div>
 
-            <!-- 저축 목표 & 저금통 -->
+            <!-- 섹션 헤더: 저축 관리 -->
+            <div style="padding: 24px 0 12px 0; margin-bottom: 12px;">
+                <div style="font-size: 15px; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 8px;">
+                    <div style="width: 4px; height: 18px; background: linear-gradient(180deg, #10b981 0%, #059669 100%); border-radius: 2px;"></div>
+                    🏠 저축 관리
+                </div>
+            </div>
+
+            <!-- 저축 목표 & 저금통 & 달력 -->
             <div class="card">
                 <div class="card-title">🎯 인테리어/가전/가구 자금 모으기</div>
                 
-                <!-- 목표 금액 설정 -->
-                <div class="input-group">
-                    <label class="input-label">목표 금액 (만원)</label>
-                    <input type="number" id="piggy-goal" placeholder="예: 10000">
-                </div>
-                
-                <!-- 저금통 애니메이션 -->
-                <div style="text-align: center; margin: 20px 0;">
-                    <div style="font-size: 80px; margin-bottom: 10px;">🏦</div>
-                    <div style="font-size: 24px; font-weight: bold; color: #10b981; margin-bottom: 5px;" id="piggy-saved">0만원</div>
-                    <div style="color: #666; font-size: 14px;">/ <span id="piggy-goal-display">0만원</span></div>
-                </div>
-                
-                <!-- 진행바 -->
-                <div class="progress-bar" style="background: #e2e8f0; height: 16px; margin-bottom: 10px;">
-                    <div id="piggy-progress" style="height: 100%; background: linear-gradient(90deg, #10b981 0%, #059669 100%); border-radius: 10px; transition: width 0.5s;"></div>
-                </div>
-                <div style="text-align: center; font-size: 16px; font-weight: 600; color: #059669;" id="piggy-percent">0%</div>
-            </div>
-
-            <!-- 달력 형식 저축 기록 -->
-            <div class="card">
-                <div class="card-title">📅 이번 달 저축 기록</div>
-                
-                <!-- 월 선택 -->
-                <div class="month-selector">
-                    <button class="month-btn" onclick="changeCalendarMonth(-1)">◀</button>
-                    <div class="current-month" id="calendar-month">2025년 1월</div>
-                    <button class="month-btn" onclick="changeCalendarMonth(1)">▶</button>
-                </div>
-                
-                <!-- 빠른 입력 -->
-                <div style="margin-bottom: 15px;">
-                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-                        <input type="date" id="saving-date" style="flex: 1;">
-                        <input type="number" id="saving-amount" placeholder="금액 (만원)" style="flex: 1;">
+                <!-- 저축 현황 카드 -->
+                <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 20px; border-radius: 16px; margin: 20px 0; border: 2px solid #10b981;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        <div>
+                            <div style="font-size: 13px; color: #059669; font-weight: 600; margin-bottom: 6px;">현재 모은 금액</div>
+                            <div style="font-size: 32px; font-weight: 700; color: #059669;" id="piggy-saved">0만원</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 13px; color: #64748b; margin-bottom: 6px;">목표</div>
+                            <input type="number" id="piggy-goal" placeholder="2000" style="font-size: 20px; font-weight: 600; color: #64748b; width: 100px; text-align: right; border: none; background: transparent; border-bottom: 2px solid #d1fae5; padding: 4px 0;">
+                            <span style="font-size: 16px; color: #64748b; margin-left: 4px;">만원</span>
+                        </div>
                     </div>
-                    <button class="btn btn-primary" onclick="addSavingRecord()">💰 저축 기록 추가</button>
+                    
+                    <!-- 진행바 -->
+                    <div class="progress-bar" style="background: rgba(16, 185, 129, 0.2); height: 12px; margin-bottom: 8px;">
+                        <div id="piggy-progress" style="height: 100%; background: linear-gradient(90deg, #10b981 0%, #059669 100%); border-radius: 10px; transition: width 0.5s;"></div>
+                    </div>
+                    <div style="text-align: right; font-size: 14px; font-weight: 600; color: #059669;" id="piggy-percent">0%</div>
+                </div>
+
+                <!-- 구분선 -->
+                <div style="border-top: 1px solid #e2e8f0; margin: 24px 0;"></div>
+
+                <!-- 월별 저축 기록 -->
+                <div style="font-size: 15px; font-weight: 600; color: #1e293b; margin-bottom: 16px;">📅 월별 저축 기록</div>
+                
+                <div style="margin: 16px 0; padding: 12px; background: #f0fdf4; border-radius: 8px; font-size: 13px; color: #059669;">
+                    💡 월을 클릭하여 저축 금액을 입력하세요
                 </div>
                 
-                <!-- 달력 그리드 -->
-                <div id="calendar-grid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-top: 15px;">
-                    <!-- 요일 헤더 -->
+                <!-- 월별 그리드 (4열 x 3행) -->
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px;">
+                    <!-- 1~12월 -->
                 </div>
-                
-                <!-- 이번 달 총 저축액 -->
-                <div style="margin-top: 20px; padding: 15px; background: #f8f9ff; border-radius: 10px; text-align: center;">
-                    <div style="color: #666; font-size: 14px; margin-bottom: 5px;">이번 달 저축</div>
-                    <div style="font-size: 24px; font-weight: bold; color: #10b981;" id="month-total-savings">0만원</div>
+                <div id="monthly-savings-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px;">
                 </div>
             </div>
         </div>
@@ -660,6 +677,14 @@
         <div id="schedule" class="tab-content">
             <button class="btn btn-primary" onclick="showAddSchedule()" style="margin-bottom: 15px;">+ 일정 추가</button>
             
+            <!-- 섹션 헤더: 일정 타임라인 -->
+            <div style="padding: 12px 0 12px 0; margin-bottom: 12px;">
+                <div style="font-size: 15px; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 8px;">
+                    <div style="width: 4px; height: 18px; background: linear-gradient(180deg, #10b981 0%, #059669 100%); border-radius: 2px;"></div>
+                    📅 일정 타임라인
+                </div>
+            </div>
+
             <div class="timeline" id="schedule-list">
                 <div style="color: #999; text-align: center; padding: 40px 0;">등록된 일정이 없습니다</div>
             </div>
@@ -995,14 +1020,14 @@
                 var acc = data.cashAccounts[i];
                 total += acc.amount;
                 
-                html += '<div class="item-card" style="display: flex; justify-content: space-between; align-items: center;">';
+                html += '<div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 16px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">';
                 html += '<div>';
-                html += '<div style="font-weight: bold; font-size: 15px;">' + acc.name + '</div>';
-                html += '<div style="color: #10b981; font-weight: bold; font-size: 16px; margin-top: 3px;">' + formatWon(acc.amount) + '</div>';
+                html += '<div style="font-weight: 600; font-size: 14px; color: #1e293b;">' + acc.name + '</div>';
+                html += '<div style="color: #10b981; font-weight: 700; font-size: 16px; margin-top: 2px;">' + formatWon(acc.amount) + '</div>';
                 html += '</div>';
-                html += '<div style="display: flex; gap: 5px;">';
-                html += '<button class="btn-delete" style="background: #10b981; width: auto; padding: 6px 12px;" onclick="editCashAccount(' + acc.id + ')">수정</button>';
-                html += '<button class="btn-delete" onclick="deleteCashAccount(' + acc.id + ')">삭제</button>';
+                html += '<div style="display: flex; gap: 6px;">';
+                html += '<button onclick="editCashAccount(' + acc.id + ')" style="background: #f0fdf4; border: 1px solid #d1fae5; color: #059669; padding: 6px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: 600;">수정</button>';
+                html += '<button onclick="deleteCashAccount(' + acc.id + ')" style="background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; padding: 6px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: 600;">삭제</button>';
                 html += '</div>';
                 html += '</div>';
             }
@@ -1315,6 +1340,9 @@
             document.getElementById('detail-ltv').textContent = data.budget.ltv + '%';
             document.getElementById('detail-loan-rate').textContent = data.budget.loanRate + '%';
             
+            // 대출 가능 금액
+            document.getElementById('detail-loan-available').textContent = formatWon(loanAvailable);
+            
             var monthlyInterest = 0;
             if (data.budget.loanDeposit > 0 && data.budget.loanRate > 0) {
                 monthlyInterest = Math.round(data.budget.loanDeposit * (data.budget.loanRate / 100) / 12);
@@ -1336,23 +1364,23 @@
                 if (i < sorted.length - 1) {
                     html += '<div class="timeline-line"></div>';
                 }
-                html += '<div class="item-card">';
-                html += '<div class="item-header">';
+                html += '<div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 16px; margin-bottom: 8px;">';
+                html += '<div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 8px;">';
                 html += '<div>';
-                html += '<div class="item-title">' + sch.title + '</div>';
-                html += '<div style="font-size: 13px; color: #666; margin-top: 3px;">📅 ' + sch.date + '</div>';
+                html += '<div style="font-weight: 600; font-size: 15px; color: #1e293b;">' + sch.title + '</div>';
+                html += '<div style="font-size: 13px; color: #64748b; margin-top: 4px;">📅 ' + sch.date + '</div>';
                 if (sch.amount > 0) {
-                    html += '<div style="font-size: 14px; font-weight: bold; color: #10b981; margin-top: 5px;">💰 ' + formatWon(sch.amount) + '</div>';
+                    html += '<div style="font-size: 14px; font-weight: 700; color: #10b981; margin-top: 6px;">💰 ' + formatWon(sch.amount) + '</div>';
                 }
                 html += '</div>';
-                html += '<button class="btn-delete" onclick="deleteSchedule(' + sch.id + ')">삭제</button>';
+                html += '<button onclick="deleteSchedule(' + sch.id + ')" style="background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; padding: 6px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: 600;">삭제</button>';
                 html += '</div>';
                 if (sch.memo) {
-                    html += '<div style="margin-top: 10px; font-size: 13px; color: #666; padding: 8px; background: white; border-radius: 5px;">' + sch.memo + '</div>';
+                    html += '<div style="margin-top: 10px; font-size: 13px; color: #64748b; padding: 10px; background: #f8fafc; border-radius: 8px;">' + sch.memo + '</div>';
                 }
                 html += '<div style="margin-top: 10px;">';
-                html += '<label style="font-size: 13px; color: #666; margin-right: 10px;">';
-                html += '<input type="checkbox" ' + (isDone ? 'checked' : '') + ' onchange="toggleScheduleStatus(' + sch.id + ')"> 완료';
+                html += '<label style="font-size: 13px; color: #64748b; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">';
+                html += '<input type="checkbox" ' + (isDone ? 'checked' : '') + ' onchange="toggleScheduleStatus(' + sch.id + ')" style="cursor: pointer;"> 완료';
                 html += '</label>';
                 html += '</div>';
                 html += '</div></div>';
@@ -1382,26 +1410,26 @@
                     
                     for (var i = 0; i < catExpenses.length; i++) {
                         var exp = catExpenses[i];
-                        html += '<div class="item-card">';
-                        html += '<div class="item-header">';
-                        html += '<div>';
-                        html += '<div class="item-title">' + exp.item + '</div>';
-                        html += '<div class="item-status' + (exp.status === '완료' ? ' status-done' : '') + '">' + exp.status + '</div>';
+                        html += '<div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 16px; margin-bottom: 8px;">';
+                        html += '<div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">';
+                        html += '<div style="display: flex; align-items: center; gap: 8px;">';
+                        html += '<div style="font-weight: 600; font-size: 15px; color: #1e293b;">' + exp.item + '</div>';
+                        html += '<span style="font-size: 11px; padding: 3px 8px; border-radius: 12px; ' + (exp.status === '완료' ? 'background: #d1fae5; color: #065f46;' : 'background: #e2e8f0; color: #475569;') + '">' + exp.status + '</span>';
                         html += '</div>';
-                        html += '<button class="btn-delete" onclick="deleteExpense(' + exp.id + ')">삭제</button>';
+                        html += '<button onclick="deleteExpense(' + exp.id + ')" style="background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; padding: 6px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: 600;">삭제</button>';
                         html += '</div>';
-                        html += '<div style="margin-top: 10px;">';
-                        html += '<div style="display: flex; justify-content: space-between; margin-bottom: 5px;">';
-                        html += '<span style="color: #666; font-size: 14px;">예산</span>';
-                        html += '<span style="font-weight: bold;">' + formatWon(exp.budget) + '</span>';
+                        html += '<div style="margin-top: 8px;">';
+                        html += '<div style="display: flex; justify-content: space-between; margin-bottom: 6px;">';
+                        html += '<span style="color: #64748b; font-size: 13px;">예산</span>';
+                        html += '<span style="font-weight: 600; font-size: 14px;">' + formatWon(exp.budget) + '</span>';
                         html += '</div>';
                         html += '<div style="display: flex; justify-content: space-between;">';
-                        html += '<span style="color: #666; font-size: 14px;">실제</span>';
-                        html += '<span style="font-weight: bold; color: #ff4757;">' + formatWon(exp.actual) + '</span>';
+                        html += '<span style="color: #64748b; font-size: 13px;">실제</span>';
+                        html += '<span style="font-weight: 700; color: #dc2626; font-size: 14px;">' + formatWon(exp.actual) + '</span>';
                         html += '</div>';
                         html += '</div>';
                         if (exp.memo) {
-                            html += '<div style="margin-top: 10px; font-size: 13px; color: #666; padding: 8px; background: white; border-radius: 5px;">' + exp.memo + '</div>';
+                            html += '<div style="margin-top: 10px; font-size: 13px; color: #64748b; padding: 10px; background: #f8fafc; border-radius: 8px;">' + exp.memo + '</div>';
                         }
                         if (exp.receipt) {
                             html += '<img src="' + exp.receipt + '" class="receipt-img">';
@@ -1437,15 +1465,14 @@
             }
             
             document.getElementById('piggy-goal').value = goal || '';
-            document.getElementById('piggy-goal-display').textContent = formatWon(goal);
             document.getElementById('piggy-saved').textContent = formatWon(totalSaved);
             
             var percent = goal > 0 ? Math.min((totalSaved / goal) * 100, 100) : 0;
             document.getElementById('piggy-progress').style.width = percent + '%';
             document.getElementById('piggy-percent').textContent = Math.round(percent) + '%';
             
-            // 달력 렌더링
-            renderCalendar();
+            // 월별 그리드 렌더링
+            renderMonthlySavings();
         }
 
         function showAddSchedule() {
@@ -1574,9 +1601,119 @@
             }
         }
 
-        function changeCalendarMonth(delta) {
-            calendarMonth.setMonth(calendarMonth.getMonth() + delta);
-            updateSavingsTab();
+
+        function renderMonthlySavings() {
+            var html = '';
+            var currentYear = new Date().getFullYear();
+            var months = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
+            
+            for (var month = 1; month <= 12; month++) {
+                var monthTotal = 0;
+                
+                // 해당 월의 모든 저축 기록 합산
+                for (var dateStr in data.savingRecords) {
+                    var recordDate = new Date(dateStr);
+                    if (recordDate.getFullYear() === currentYear && recordDate.getMonth() + 1 === month) {
+                        monthTotal += data.savingRecords[dateStr];
+                    }
+                }
+                
+                var hasAmount = monthTotal > 0;
+                var bgColor = hasAmount ? '#f0fdf4' : 'white';
+                var borderColor = hasAmount ? '#10b981' : '#e2e8f0';
+                
+                html += '<div onclick="editMonthSaving(' + month + ')" style="';
+                html += 'background: ' + bgColor + '; ';
+                html += 'border: 2px solid ' + borderColor + '; ';
+                html += 'border-radius: 12px; ';
+                html += 'padding: 20px 16px; ';
+                html += 'text-align: center; ';
+                html += 'cursor: pointer; ';
+                html += 'transition: all 0.2s; ';
+                html += 'min-height: 90px; ';
+                html += 'display: flex; ';
+                html += 'flex-direction: column; ';
+                html += 'justify-content: center; ';
+                html += '" ';
+                html += 'onmouseover="this.style.background=\'#dcfce7\'; this.style.borderColor=\'#059669\'; this.style.transform=\'translateY(-2px)\'; this.style.boxShadow=\'0 4px 12px rgba(16, 185, 129, 0.2)\';" ';
+                html += 'onmouseout="this.style.background=\'' + bgColor + '\'; this.style.borderColor=\'' + borderColor + '\'; this.style.transform=\'translateY(0)\'; this.style.boxShadow=\'none\';">';
+                html += '<div style="font-size: 14px; font-weight: 600; color: #64748b; margin-bottom: 8px;">' + months[month - 1] + '</div>';
+                html += '<div style="font-size: 18px; font-weight: 700; color: ' + (hasAmount ? '#059669' : '#94a3b8') + ';">' + formatNumber(monthTotal) + '만원</div>';
+                html += '</div>';
+            }
+            
+            document.getElementById('monthly-savings-grid').innerHTML = html;
+        }
+
+        function editMonthSaving(month) {
+            var currentYear = new Date().getFullYear();
+            var monthTotal = 0;
+            var monthKey = currentYear + '-' + (month < 10 ? '0' + month : month);
+            
+            // 해당 월의 총 저축액 계산
+            for (var dateStr in data.savingRecords) {
+                if (dateStr.startsWith(monthKey)) {
+                    monthTotal += data.savingRecords[dateStr];
+                }
+            }
+            
+            var message = monthTotal > 0 
+                ? month + '월 현재 금액: ' + formatNumber(monthTotal) + '만원\n\n새 금액을 입력하세요 (0 입력 시 삭제):'
+                : month + '월 저축 금액을 입력하세요 (만원):';
+            
+            var newAmount = prompt(message, monthTotal);
+            
+            if (newAmount === null) return; // 취소
+            
+            newAmount = Number(newAmount);
+            
+            if (isNaN(newAmount) || newAmount < 0) {
+                alert('올바른 금액을 입력해주세요');
+                return;
+            }
+            
+            // 해당 월의 모든 기록 삭제
+            for (var dateStr in data.savingRecords) {
+                if (dateStr.startsWith(monthKey)) {
+                    delete data.savingRecords[dateStr];
+                }
+            }
+            
+            // 새 금액이 0보다 크면 해당 월 1일에 저장
+            if (newAmount > 0) {
+                var saveDate = currentYear + '-' + (month < 10 ? '0' + month : month) + '-01';
+                data.savingRecords[saveDate] = newAmount;
+            }
+            
+            saveData();
+        }
+
+        function editSavingForDate(dateStr) {
+            var currentAmount = data.savingRecords[dateStr] || 0;
+            var message = currentAmount > 0 
+                ? '현재 금액: ' + formatNumber(currentAmount) + '만원\n\n새 금액을 입력하세요 (0 입력 시 삭제):'
+                : '저축 금액을 입력하세요 (만원):';
+            
+            var newAmount = prompt(message, currentAmount);
+            
+            if (newAmount === null) return; // 취소
+            
+            newAmount = Number(newAmount);
+            
+            if (isNaN(newAmount) || newAmount < 0) {
+                alert('올바른 금액을 입력해주세요');
+                return;
+            }
+            
+            if (newAmount === 0) {
+                // 삭제
+                delete data.savingRecords[dateStr];
+            } else {
+                // 추가/수정
+                data.savingRecords[dateStr] = newAmount;
+            }
+            
+            saveData();
         }
 
         function addSavingRecord() {
@@ -1598,54 +1735,6 @@
             saveData();
         }
 
-        function renderCalendar() {
-            var year = calendarMonth.getFullYear();
-            var month = calendarMonth.getMonth();
-            
-            document.getElementById('calendar-month').textContent = year + '년 ' + (month + 1) + '월';
-            
-            var firstDay = new Date(year, month, 1).getDay();
-            var daysInMonth = new Date(year, month + 1, 0).getDate();
-            
-            var html = '';
-            var weekdays = ['일', '월', '화', '수', '목', '금', '토'];
-            
-            for (var i = 0; i < 7; i++) {
-                html += '<div style="text-align: center; font-weight: bold; padding: 8px; color: #666; font-size: 13px;">' + weekdays[i] + '</div>';
-            }
-            
-            for (var i = 0; i < firstDay; i++) {
-                html += '<div></div>';
-            }
-            
-            var monthTotal = 0;
-            
-            for (var day = 1; day <= daysInMonth; day++) {
-                var monthStr = month + 1 < 10 ? '0' + (month + 1) : String(month + 1);
-                var dayStr = day < 10 ? '0' + day : String(day);
-                var dateStr = year + '-' + monthStr + '-' + dayStr;
-                var amount = data.savingRecords[dateStr] || 0;
-                
-                if (amount > 0) {
-                    monthTotal += amount;
-                }
-                
-                var isToday = new Date().toDateString() === new Date(year, month, day).toDateString();
-                var bgColor = isToday ? '#f8f9ff' : 'white';
-                var border = isToday ? '2px solid #10b981' : '1px solid #e0e0e0';
-                
-                html += '<div style="border: ' + border + '; border-radius: 8px; padding: 8px 4px; text-align: center; min-height: 60px; background: ' + bgColor + ';">';
-                html += '<div style="font-size: 13px; font-weight: ' + (isToday ? 'bold' : 'normal') + '; color: ' + (isToday ? '#10b981' : '#333') + ';">' + day + '</div>';
-                if (amount > 0) {
-                    html += '<div style="font-size: 11px; color: #10b981; font-weight: bold; margin-top: 3px;">💰</div>';
-                    html += '<div style="font-size: 10px; color: #10b981; font-weight: bold;">' + formatNumber(amount) + '</div>';
-                }
-                html += '</div>';
-            }
-            
-            document.getElementById('calendar-grid').innerHTML = html;
-            document.getElementById('month-total-savings').textContent = formatWon(monthTotal);
-        }
 
         var budgetFields = ['base-price', 'interest', 'options', 'paid-deposit', 'cash', 'home-price', 'loan-deposit', 'loan-rate', 'ltv'];
         for (var i = 0; i < budgetFields.length; i++) {
