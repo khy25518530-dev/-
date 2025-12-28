@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>아이콘 생성기</title>
+</head>
+<body>
+    <h2>아이콘 다운로드</h2>
+    <p>각 캔버스에서 마우스 우클릭 → 이미지 저장</p>
+    
+    <div>
+        <h3>icon-192.png (192x192)</h3>
+        <canvas id="icon192" width="192" height="192"></canvas>
+    </div>
+    
+    <div style="margin-top: 20px;">
+        <h3>icon-512.png (512x512)</h3>
+        <canvas id="icon512" width="512" height="512"></canvas>
+    </div>
+
+    <script>
+        function createIcon(canvasId, size) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            
+            // 배경 - 오렌지색
+            ctx.fillStyle = '#fc9600';
+            ctx.fillRect(0, 0, size, size);
+            
+            // 흰색 집 모양 아이콘
+            ctx.fillStyle = '#ffffff';
+            
+            // 지붕
+            ctx.beginPath();
+            ctx.moveTo(size * 0.5, size * 0.25);
+            ctx.lineTo(size * 0.2, size * 0.45);
+            ctx.lineTo(size * 0.8, size * 0.45);
+            ctx.closePath();
+            ctx.fill();
+            
+            // 집 몸통
+            ctx.fillRect(size * 0.25, size * 0.45, size * 0.5, size * 0.4);
+            
+            // 문
+            ctx.fillStyle = '#fc9600';
+            ctx.fillRect(size * 0.42, size * 0.6, size * 0.16, size * 0.25);
+            
+            // 창문들
+            ctx.fillRect(size * 0.3, size * 0.52, size * 0.08, size * 0.08);
+            ctx.fillRect(size * 0.62, size * 0.52, size * 0.08, size * 0.08);
+        }
+        
+        createIcon('icon192', 192);
+        createIcon('icon512', 512);
+    </script>
+</body>
+</html>
