@@ -1177,6 +1177,9 @@
                 calendarMonth = new Date();
                 updateAllUI();
                 
+                // 홈 탭 표시
+                showTab('home');
+                
                 // 이제 실시간 리스너 등록 (다른 기기에서 변경 감지)
                 setupRealtimeListener();
             }).catch(function(error) {
@@ -1194,6 +1197,9 @@
                 currentMonth = new Date();
                 calendarMonth = new Date();
                 updateAllUI();
+                
+                // 홈 탭 표시
+                showTab('home');
             });
         }
 
@@ -1517,13 +1523,18 @@
             
             // 예산 트래커 업데이트 - 현재 모은 금액과 연동
             var totalSaved = 0;
+            console.log('📊 저축 기록:', data.savingRecords);
             for (var date in data.savingRecords) {
                 totalSaved += data.savingRecords[date];
+                console.log('  날짜:', date, '금액:', data.savingRecords[date]);
             }
+            console.log('💰 총 모은 금액:', totalSaved);
             
             var furnitureBudget = totalSaved; // 현재 모은 금액이 예산
             var remaining = furnitureBudget - totalUsed;
             var usedPercent = furnitureBudget > 0 ? (totalUsed / furnitureBudget) * 100 : 0;
+            
+            console.log('🎯 지출 탭 예산:', furnitureBudget);
             
             document.getElementById('furniture-budget-total').textContent = formatWon(furnitureBudget);
             document.getElementById('furniture-budget-used').textContent = formatWon(totalUsed);
