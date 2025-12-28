@@ -433,7 +433,7 @@
                 <!-- 항목별 리스트 -->
                 <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #e0e0e0;">
-                        <span style="color: #666; font-size: 14px;">✓ 이미 낸 돈</span>
+                        <span style="color: #666; font-size: 14px;">💳 중도금 납부</span>
                         <div style="text-align: right;">
                             <div style="font-weight: bold; font-size: 15px;" id="home-paid-simple">0원</div>
                             <div style="font-size: 12px; color: #22c55e;" id="home-paid-percent">(0%)</div>
@@ -490,17 +490,13 @@
                         </div>
                     </div>
 
-                    <!-- 이미 낸 돈 상세 -->
+                    <!-- 중도금 납부 상세 -->
                     <div style="margin-bottom: 15px;">
-                        <div style="font-weight: 600; margin-bottom: 10px; color: #10b981; font-size: 14px;">✅ 이미 낸 돈 구성</div>
+                        <div style="font-weight: 600; margin-bottom: 10px; color: #10b981; font-size: 14px;">💳 중도금 납부</div>
                         <div style="background: #f8f9fa; padding: 12px; border-radius: 8px;">
                             <div style="display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px;">
-                                <span style="color: #666;">💳 중도금 납부</span>
-                                <span style="font-weight: 500;" id="detail-paid-deposit">0원</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px;">
-                                <span style="color: #666;">💰 완료된 지출</span>
-                                <span style="font-weight: 500;" id="detail-paid-expenses">0원</span>
+                                <span style="color: #666;">납부 금액</span>
+                                <span style="font-weight: 600; font-size: 16px; color: #10b981;" id="detail-paid-deposit">0원</span>
                             </div>
                         </div>
                     </div>
@@ -526,8 +522,8 @@
                                 <span style="font-weight: 500;" id="detail-loan-rate">0%</span>
                             </div>
                             <div style="display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px; border-top: 1px solid #e0e0e0; padding-top: 8px; margin-top: 5px;">
-                                <span style="color: #666;">💸 월 대출 이자</span>
-                                <span style="font-weight: 600; color: #ef4444;" id="detail-monthly-interest">0원</span>
+                                <span style="color: #666;">💸 월 상환금 (30년)</span>
+                                <span style="font-weight: 600; color: #ef4444;" id="detail-monthly-payment">0원</span>
                             </div>
                         </div>
                     </div>
@@ -579,6 +575,20 @@
 
             <!-- 빠른 추가 버튼 -->
             <button class="btn btn-primary" onclick="showAddExpense()" style="margin-bottom: 15px;">+ 항목 추가</button>
+            
+            <!-- 카테고리 필터 탭 (토스/당근 스타일 가로 스크롤) -->
+            <div style="margin: 0 -20px 16px -20px; padding: 0 20px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none;">
+                <style>
+                    div::-webkit-scrollbar { display: none; }
+                </style>
+                <div style="display: flex; gap: 8px; min-width: min-content; padding-bottom: 4px;">
+                    <button id="filter-all" class="category-filter active" onclick="filterExpenses('all')" style="flex-shrink: 0; padding: 10px 20px; border-radius: 20px; border: none; background: #10b981; color: white; font-size: 14px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.2s;">전체</button>
+                    <button id="filter-인테리어" class="category-filter" onclick="filterExpenses('인테리어')" style="flex-shrink: 0; padding: 10px 20px; border-radius: 20px; border: none; background: #f1f5f9; color: #475569; font-size: 14px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.2s;">인테리어</button>
+                    <button id="filter-가전" class="category-filter" onclick="filterExpenses('가전')" style="flex-shrink: 0; padding: 10px 20px; border-radius: 20px; border: none; background: #f1f5f9; color: #475569; font-size: 14px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.2s;">가전</button>
+                    <button id="filter-가구" class="category-filter" onclick="filterExpenses('가구')" style="flex-shrink: 0; padding: 10px 20px; border-radius: 20px; border: none; background: #f1f5f9; color: #475569; font-size: 14px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.2s;">가구</button>
+                    <button id="filter-기타" class="category-filter" onclick="filterExpenses('기타')" style="flex-shrink: 0; padding: 10px 20px; border-radius: 20px; border: none; background: #f1f5f9; color: #475569; font-size: 14px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.2s;">기타</button>
+                </div>
+            </div>
             
             <!-- 섹션 헤더: 지출 내역 -->
             <div style="padding: 12px 0 12px 0; margin-bottom: 12px;">
@@ -660,15 +670,19 @@
                 <!-- 월별 저축 기록 -->
                 <div style="font-size: 15px; font-weight: 600; color: #1e293b; margin-bottom: 16px;">📅 월별 저축 기록</div>
                 
+                <!-- 연도 선택 -->
+                <div style="display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 16px;">
+                    <button onclick="changeSavingYear(-1)" style="background: white; border: 1.5px solid #e2e8f0; color: #64748b; width: 36px; height: 36px; border-radius: 8px; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;" onmouseover="this.style.borderColor='#10b981'; this.style.color='#10b981';" onmouseout="this.style.borderColor='#e2e8f0'; this.style.color='#64748b';">◀</button>
+                    <div id="saving-year" style="font-size: 16px; font-weight: 600; color: #1e293b; min-width: 80px; text-align: center;">2025년</div>
+                    <button onclick="changeSavingYear(1)" style="background: white; border: 1.5px solid #e2e8f0; color: #64748b; width: 36px; height: 36px; border-radius: 8px; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;" onmouseover="this.style.borderColor='#10b981'; this.style.color='#10b981';" onmouseout="this.style.borderColor='#e2e8f0'; this.style.color='#64748b';">▶</button>
+                </div>
+                
                 <div style="margin: 16px 0; padding: 12px; background: #f0fdf4; border-radius: 8px; font-size: 13px; color: #059669;">
                     💡 월을 클릭하여 저축 금액을 입력하세요
                 </div>
                 
-                <!-- 월별 그리드 (4열 x 3행) -->
-                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px;">
-                    <!-- 1~12월 -->
-                </div>
-                <div id="monthly-savings-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px;">
+                <!-- 월별 그리드 (3열 x 4행) -->
+                <div id="monthly-savings-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 16px;">
                 </div>
             </div>
         </div>
@@ -833,6 +847,7 @@
                     <option>인테리어</option>
                     <option>가전</option>
                     <option>가구</option>
+                    <option>기타</option>
                 </select>
             </div>
             <div class="input-group">
@@ -867,6 +882,20 @@
             <div class="btn-row">
                 <button class="btn btn-primary" onclick="addExpenseItem()">추가</button>
                 <button class="btn btn-secondary" onclick="hideAddExpense()">취소</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 메모 상세 보기 모달 -->
+    <div id="memo-modal" class="modal">
+        <div class="modal-content">
+            <div class="card-title">📝 메모</div>
+            <div style="background: #f8fafc; padding: 16px; border-radius: 8px; min-height: 100px; margin-bottom: 20px;">
+                <div id="memo-content" style="white-space: pre-wrap; font-size: 14px; color: #1e293b; line-height: 1.6;"></div>
+            </div>
+            <div class="btn-row">
+                <button class="btn btn-primary" onclick="editExpenseMemo()">수정</button>
+                <button class="btn btn-secondary" onclick="hideMemoModal()">닫기</button>
             </div>
         </div>
     </div>
@@ -946,6 +975,8 @@
         };
 
         var currentMonth = new Date();
+        var currentSavingYear = new Date().getFullYear();
+        var currentExpenseFilter = 'all';
         var calendarMonth = new Date();
 
         function toggleDetail() {
@@ -1021,13 +1052,13 @@
                 total += acc.amount;
                 
                 html += '<div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 16px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">';
-                html += '<div>';
+                html += '<div style="flex: 1;">';
                 html += '<div style="font-weight: 600; font-size: 14px; color: #1e293b;">' + acc.name + '</div>';
                 html += '<div style="color: #10b981; font-weight: 700; font-size: 16px; margin-top: 2px;">' + formatWon(acc.amount) + '</div>';
                 html += '</div>';
                 html += '<div style="display: flex; gap: 6px;">';
-                html += '<button onclick="editCashAccount(' + acc.id + ')" style="background: #f0fdf4; border: 1px solid #d1fae5; color: #059669; padding: 6px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: 600;">수정</button>';
-                html += '<button onclick="deleteCashAccount(' + acc.id + ')" style="background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; padding: 6px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: 600;">삭제</button>';
+                html += '<button onclick="editCashAccount(' + acc.id + ')" style="width: 32px; height: 32px; background: #f0fdf4; border: 1px solid #d1fae5; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.1);" onmouseover="this.style.background=\'#dcfce7\'; this.style.transform=\'scale(1.05)\';" onmouseout="this.style.background=\'#f0fdf4\'; this.style.transform=\'scale(1)\';" title="수정"><span style="font-size: 14px;">✏️</span></button>';
+                html += '<button onclick="deleteCashAccount(' + acc.id + ')" style="width: 32px; height: 32px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.1);" onmouseover="this.style.background=\'#fee2e2\'; this.style.transform=\'scale(1.05)\';" onmouseout="this.style.background=\'#fef2f2\'; this.style.transform=\'scale(1)\';" title="삭제"><span style="font-size: 14px;">🗑️</span></button>';
                 html += '</div>';
                 html += '</div>';
             }
@@ -1335,7 +1366,6 @@
             document.getElementById('detail-interest').textContent = formatWon(data.budget.interest);
             document.getElementById('detail-options').textContent = formatWon(data.budget.options);
             document.getElementById('detail-paid-deposit').textContent = formatWon(data.budget.paidDeposit);
-            document.getElementById('detail-paid-expenses').textContent = formatWon(completedExpenses);
             document.getElementById('detail-home-price').textContent = formatWon(data.budget.homePrice);
             document.getElementById('detail-ltv').textContent = data.budget.ltv + '%';
             document.getElementById('detail-loan-rate').textContent = data.budget.loanRate + '%';
@@ -1343,11 +1373,18 @@
             // 대출 가능 금액
             document.getElementById('detail-loan-available').textContent = formatWon(loanAvailable);
             
-            var monthlyInterest = 0;
-            if (data.budget.loanDeposit > 0 && data.budget.loanRate > 0) {
-                monthlyInterest = Math.round(data.budget.loanDeposit * (data.budget.loanRate / 100) / 12);
+            // 월 상환금 계산 (30년 원리금 균등 상환)
+            var monthlyPayment = 0;
+            if (loanAvailable > 0 && data.budget.loanRate > 0) {
+                var principal = loanAvailable * 10000; // 만원 → 원
+                var monthlyRate = (data.budget.loanRate / 100) / 12; // 월 이자율
+                var numPayments = 30 * 12; // 30년 = 360개월
+                
+                // 원리금 균등 상환 공식: P * r * (1+r)^n / ((1+r)^n - 1)
+                var temp = Math.pow(1 + monthlyRate, numPayments);
+                monthlyPayment = Math.round((principal * monthlyRate * temp) / (temp - 1) / 10000); // 원 → 만원
             }
-            document.getElementById('detail-monthly-interest').textContent = formatWon(monthlyInterest);
+            document.getElementById('detail-monthly-payment').textContent = formatWon(monthlyPayment);
         }
 
         function updateScheduleList() {
@@ -1373,7 +1410,7 @@
                     html += '<div style="font-size: 14px; font-weight: 700; color: #10b981; margin-top: 6px;">💰 ' + formatWon(sch.amount) + '</div>';
                 }
                 html += '</div>';
-                html += '<button onclick="deleteSchedule(' + sch.id + ')" style="background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; padding: 6px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: 600;">삭제</button>';
+                html += '<button onclick="deleteSchedule(' + sch.id + ')" style="width: 32px; height: 32px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.1); flex-shrink: 0;" onmouseover="this.style.background=\'#fee2e2\'; this.style.transform=\'scale(1.05)\';" onmouseout="this.style.background=\'#fef2f2\'; this.style.transform=\'scale(1)\';" title="삭제"><span style="font-size: 14px;">🗑️</span></button>';
                 html += '</div>';
                 if (sch.memo) {
                     html += '<div style="margin-top: 10px; font-size: 13px; color: #64748b; padding: 10px; background: #f8fafc; border-radius: 8px;">' + sch.memo + '</div>';
@@ -1390,12 +1427,18 @@
         }
 
         function updateExpensesList() {
-            var furnitureCategories = ['인테리어', '가전', '가구'];
+            var furnitureCategories = ['인테리어', '가전', '가구', '기타'];
+            
+            // 필터에 따라 카테고리 결정
+            var displayCategories = currentExpenseFilter === 'all' 
+                ? furnitureCategories 
+                : [currentExpenseFilter];
+            
             var html = '';
             var totalUsed = 0;
             
-            for (var c = 0; c < furnitureCategories.length; c++) {
-                var cat = furnitureCategories[c];
+            for (var c = 0; c < displayCategories.length; c++) {
+                var cat = displayCategories[c];
                 var catExpenses = [];
                 
                 for (var i = 0; i < data.expenses.length; i++) {
@@ -1406,7 +1449,7 @@
                 }
                 
                 if (catExpenses.length > 0) {
-                    html += '<div class="category-header">' + cat + '</div>';
+                    html += '<div style="font-size: 14px; font-weight: 600; color: #1e293b; margin: 20px 0 12px 0; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0;">' + cat + '</div>';
                     
                     for (var i = 0; i < catExpenses.length; i++) {
                         var exp = catExpenses[i];
@@ -1416,7 +1459,10 @@
                         html += '<div style="font-weight: 600; font-size: 15px; color: #1e293b;">' + exp.item + '</div>';
                         html += '<span style="font-size: 11px; padding: 3px 8px; border-radius: 12px; ' + (exp.status === '완료' ? 'background: #d1fae5; color: #065f46;' : 'background: #e2e8f0; color: #475569;') + '">' + exp.status + '</span>';
                         html += '</div>';
-                        html += '<button onclick="deleteExpense(' + exp.id + ')" style="background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; padding: 6px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: 600;">삭제</button>';
+                        html += '<div style="display: flex; gap: 6px;">';
+                        html += '<button onclick="editExpense(' + exp.id + ')" style="width: 32px; height: 32px; background: #f0fdf4; border: 1px solid #d1fae5; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.1);" onmouseover="this.style.background=\'#dcfce7\'; this.style.transform=\'scale(1.05)\';" onmouseout="this.style.background=\'#f0fdf4\'; this.style.transform=\'scale(1)\';" title="수정"><span style="font-size: 14px;">✏️</span></button>';
+                        html += '<button onclick="deleteExpense(' + exp.id + ')" style="width: 32px; height: 32px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.1);" onmouseover="this.style.background=\'#fee2e2\'; this.style.transform=\'scale(1.05)\';" onmouseout="this.style.background=\'#fef2f2\'; this.style.transform=\'scale(1)\';" title="삭제"><span style="font-size: 14px;">🗑️</span></button>';
+                        html += '</div>';
                         html += '</div>';
                         html += '<div style="margin-top: 8px;">';
                         html += '<div style="display: flex; justify-content: space-between; margin-bottom: 6px;">';
@@ -1429,7 +1475,10 @@
                         html += '</div>';
                         html += '</div>';
                         if (exp.memo) {
-                            html += '<div style="margin-top: 10px; font-size: 13px; color: #64748b; padding: 10px; background: #f8fafc; border-radius: 8px;">' + exp.memo + '</div>';
+                            var shortMemo = exp.memo.length > 30 ? exp.memo.substring(0, 30) + '...' : exp.memo;
+                            html += '<div onclick="showExpenseMemo(' + exp.id + ')" style="margin-top: 10px; font-size: 13px; color: #64748b; padding: 10px; background: #f8fafc; border-radius: 8px; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background=\'#e0f2fe\';" onmouseout="this.style.background=\'#f8fafc\';">';
+                            html += '📝 ' + shortMemo;
+                            html += '</div>';
                         }
                         if (exp.receipt) {
                             html += '<img src="' + exp.receipt + '" class="receipt-img">';
@@ -1441,8 +1490,13 @@
             
             document.getElementById('expenses-list').innerHTML = html || '<div style="color: #999; text-align: center; padding: 40px 0;">등록된 지출이 없습니다</div>';
             
-            // 예산 트래커 업데이트
-            var furnitureBudget = data.budget.extra || 0;
+            // 예산 트래커 업데이트 - 현재 모은 금액과 연동
+            var totalSaved = 0;
+            for (var date in data.savingRecords) {
+                totalSaved += data.savingRecords[date];
+            }
+            
+            var furnitureBudget = totalSaved; // 현재 모은 금액이 예산
             var remaining = furnitureBudget - totalUsed;
             var usedPercent = furnitureBudget > 0 ? (totalUsed / furnitureBudget) * 100 : 0;
             
@@ -1456,10 +1510,11 @@
             // 현금 리스트 업데이트
             updateCashList();
             
-            // 저금통 업데이트
+            // 저금통 업데이트 - 월별 저축 기록의 총합 사용
             var goal = data.savingGoal || 0;
             var totalSaved = 0;
             
+            // 모든 월별 저축 기록 합산
             for (var date in data.savingRecords) {
                 totalSaved += data.savingRecords[date];
             }
@@ -1588,6 +1643,108 @@
             }
         }
 
+        var currentMemoExpenseId = null;
+
+        function showExpenseMemo(id) {
+            currentMemoExpenseId = id;
+            var expense = null;
+            for (var i = 0; i < data.expenses.length; i++) {
+                if (data.expenses[i].id === id) {
+                    expense = data.expenses[i];
+                    break;
+                }
+            }
+            
+            if (expense && expense.memo) {
+                document.getElementById('memo-content').textContent = expense.memo;
+                document.getElementById('memo-modal').classList.add('active');
+            }
+        }
+
+        function hideMemoModal() {
+            document.getElementById('memo-modal').classList.remove('active');
+            currentMemoExpenseId = null;
+        }
+
+        function filterExpenses(category) {
+            currentExpenseFilter = category;
+            
+            // 모든 필터 버튼 초기화 (토스 스타일)
+            var filters = document.querySelectorAll('.category-filter');
+            for (var i = 0; i < filters.length; i++) {
+                filters[i].style.background = '#f1f5f9';
+                filters[i].style.color = '#475569';
+            }
+            
+            // 선택된 버튼 활성화 (토스 스타일)
+            var activeBtn = document.getElementById('filter-' + category);
+            if (activeBtn) {
+                activeBtn.style.background = '#10b981';
+                activeBtn.style.color = 'white';
+            }
+            
+            // 리스트 업데이트
+            updateExpensesList();
+        }
+
+        function editExpenseMemo() {
+            if (!currentMemoExpenseId) return;
+            
+            var expense = null;
+            for (var i = 0; i < data.expenses.length; i++) {
+                if (data.expenses[i].id === currentMemoExpenseId) {
+                    expense = data.expenses[i];
+                    break;
+                }
+            }
+            
+            if (expense) {
+                var newMemo = prompt('메모를 수정하세요:', expense.memo);
+                if (newMemo !== null) {
+                    expense.memo = newMemo;
+                    saveData();
+                    hideMemoModal();
+                }
+            }
+        }
+
+        function editExpense(id) {
+            var expense = null;
+            for (var i = 0; i < data.expenses.length; i++) {
+                if (data.expenses[i].id === id) {
+                    expense = data.expenses[i];
+                    break;
+                }
+            }
+            
+            if (!expense) return;
+            
+            // 항목 정보 입력받기
+            var item = prompt('항목명:', expense.item);
+            if (item === null) return;
+            
+            var budget = prompt('예산 (만원):', expense.budget);
+            if (budget === null) return;
+            
+            var actual = prompt('실제 지출 (만원):', expense.actual);
+            if (actual === null) return;
+            
+            var status = prompt('상태 (예정/진행중/완료/보류):', expense.status);
+            if (status === null) return;
+            
+            var memo = prompt('메모:', expense.memo || '');
+            if (memo === null) return;
+            
+            // 업데이트
+            expense.item = item;
+            expense.budget = Number(budget);
+            expense.actual = Number(actual);
+            expense.status = status;
+            expense.memo = memo;
+            
+            saveData();
+        }
+
         function deleteExpense(id) {
             if (confirm('이 항목을 삭제하시겠습니까?')) {
                 var newExpenses = [];
@@ -1602,10 +1759,17 @@
         }
 
 
+        function changeSavingYear(delta) {
+            currentSavingYear += delta;
+            renderMonthlySavings();
+        }
+
         function renderMonthlySavings() {
             var html = '';
-            var currentYear = new Date().getFullYear();
             var months = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
+            
+            // 연도 표시 업데이트
+            document.getElementById('saving-year').textContent = currentSavingYear + '년';
             
             for (var month = 1; month <= 12; month++) {
                 var monthTotal = 0;
@@ -1613,7 +1777,7 @@
                 // 해당 월의 모든 저축 기록 합산
                 for (var dateStr in data.savingRecords) {
                     var recordDate = new Date(dateStr);
-                    if (recordDate.getFullYear() === currentYear && recordDate.getMonth() + 1 === month) {
+                    if (recordDate.getFullYear() === currentSavingYear && recordDate.getMonth() + 1 === month) {
                         monthTotal += data.savingRecords[dateStr];
                     }
                 }
@@ -1624,21 +1788,22 @@
                 
                 html += '<div onclick="editMonthSaving(' + month + ')" style="';
                 html += 'background: ' + bgColor + '; ';
-                html += 'border: 2px solid ' + borderColor + '; ';
+                html += 'border: 1.5px solid ' + borderColor + '; ';
                 html += 'border-radius: 12px; ';
-                html += 'padding: 20px 16px; ';
+                html += 'padding: 18px 12px; ';
                 html += 'text-align: center; ';
                 html += 'cursor: pointer; ';
                 html += 'transition: all 0.2s; ';
-                html += 'min-height: 90px; ';
+                html += 'min-height: 85px; ';
                 html += 'display: flex; ';
                 html += 'flex-direction: column; ';
                 html += 'justify-content: center; ';
+                html += 'gap: 6px; ';
                 html += '" ';
-                html += 'onmouseover="this.style.background=\'#dcfce7\'; this.style.borderColor=\'#059669\'; this.style.transform=\'translateY(-2px)\'; this.style.boxShadow=\'0 4px 12px rgba(16, 185, 129, 0.2)\';" ';
-                html += 'onmouseout="this.style.background=\'' + bgColor + '\'; this.style.borderColor=\'' + borderColor + '\'; this.style.transform=\'translateY(0)\'; this.style.boxShadow=\'none\';">';
-                html += '<div style="font-size: 14px; font-weight: 600; color: #64748b; margin-bottom: 8px;">' + months[month - 1] + '</div>';
-                html += '<div style="font-size: 18px; font-weight: 700; color: ' + (hasAmount ? '#059669' : '#94a3b8') + ';">' + formatNumber(monthTotal) + '만원</div>';
+                html += 'onmouseover="this.style.background=\'#dcfce7\'; this.style.borderColor=\'#059669\'; this.style.transform=\'scale(1.02)\';" ';
+                html += 'onmouseout="this.style.background=\'' + bgColor + '\'; this.style.borderColor=\'' + borderColor + '\'; this.style.transform=\'scale(1)\';">';
+                html += '<div style="font-size: 13px; font-weight: 600; color: #64748b; letter-spacing: -0.3px;">' + months[month - 1] + '</div>';
+                html += '<div style="font-size: 16px; font-weight: 700; color: ' + (hasAmount ? '#059669' : '#cbd5e1') + '; letter-spacing: -0.5px;">' + formatNumber(monthTotal) + '<span style="font-size: 12px; font-weight: 500; margin-left: 2px;">만원</span></div>';
                 html += '</div>';
             }
             
@@ -1646,9 +1811,8 @@
         }
 
         function editMonthSaving(month) {
-            var currentYear = new Date().getFullYear();
             var monthTotal = 0;
-            var monthKey = currentYear + '-' + (month < 10 ? '0' + month : month);
+            var monthKey = currentSavingYear + '-' + (month < 10 ? '0' + month : month);
             
             // 해당 월의 총 저축액 계산
             for (var dateStr in data.savingRecords) {
@@ -1658,8 +1822,8 @@
             }
             
             var message = monthTotal > 0 
-                ? month + '월 현재 금액: ' + formatNumber(monthTotal) + '만원\n\n새 금액을 입력하세요 (0 입력 시 삭제):'
-                : month + '월 저축 금액을 입력하세요 (만원):';
+                ? currentSavingYear + '년 ' + month + '월 현재 금액: ' + formatNumber(monthTotal) + '만원\n\n새 금액을 입력하세요 (0 입력 시 삭제):'
+                : currentSavingYear + '년 ' + month + '월 저축 금액을 입력하세요 (만원):';
             
             var newAmount = prompt(message, monthTotal);
             
@@ -1681,7 +1845,7 @@
             
             // 새 금액이 0보다 크면 해당 월 1일에 저장
             if (newAmount > 0) {
-                var saveDate = currentYear + '-' + (month < 10 ? '0' + month : month) + '-01';
+                var saveDate = currentSavingYear + '-' + (month < 10 ? '0' + month : month) + '-01';
                 data.savingRecords[saveDate] = newAmount;
             }
             
